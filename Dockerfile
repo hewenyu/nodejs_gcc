@@ -1,5 +1,5 @@
 # Update the VARIANT arg in devcontainer.json to pick a Node.js version: 14, 12, 10 
-FROM node
+FROM node:12
 
 # Options for setup scripts
 ARG INSTALL_ZSH="true"
