@@ -7,6 +7,7 @@ ARG UPGRADE_PACKAGES="true"
 ARG USERNAME=node
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
+ARG NPM_URL="https://registry.npm.taobao.org"
 
 ENV NVM_DIR=/usr/local/share/nvm
 ENV NVM_SYMLINK_CURRENT=true \ 
@@ -34,6 +35,9 @@ RUN mkdir -p ${NPM_GLOBAL} \
     && sudo -u ${USERNAME} npm config -g set prefix ${NPM_GLOBAL} \
     && echo "if [ \"\$(stat -c '%U' ${NPM_GLOBAL})\" != \"${USERNAME}\" ]; then sudo chown -R ${USER_UID}:root ${NPM_GLOBAL} ${NVM_DIR}; fi" \
     | tee -a /root/.bashrc /root/.zshrc /home/${USERNAME}/.bashrc >> /home/${USERNAME}/.zshrc
+
+# NPM 换源
+RUN sudo -u ${USERNAME} npm config set registry ${NPM_URL}
 
 # Install eslint globally
 RUN sudo -u ${USERNAME} npm install -g eslint
